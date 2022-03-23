@@ -23,13 +23,25 @@ tested-with:           GHC == 9.0.1
                      , GHC == 7.6.1, GHC == 7.6.2, GHC == 7.6.3
                      , GHC == 7.4.1, GHC == 7.4.2
 
+flag aeson1
+     description: If true, use aeson 1.* or older, otherwise use aeson 2.* or newer
+     default:     False
+
 library
   exposed-modules:
                      Data.Aeson.Generic.Compat
   -- other-modules:
   -- other-extensions:
   build-depends:         base <5
-                       , aeson >=0.7
+                       , text
+
+  if flag(aeson1)
+    build-depends:
+                         aeson >=0.7 && <2
+                       , unordered-containers
+  else
+    build-depends:
+                         aeson >=2
   hs-source-dirs:      src
   default-language:    Haskell2010
 
